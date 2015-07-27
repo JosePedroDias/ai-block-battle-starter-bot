@@ -8,6 +8,10 @@ var updates = {}; // bag of bags (game, player1, player2?)
 
 
 
+//__main__
+
+
+
 var out = function(msg) {
     console.log(msg);
 };
