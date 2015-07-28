@@ -1,4 +1,5 @@
-var readline = require('readline');
+var line = require('./line');
+var bot  = require('./bot');
 
 
 
@@ -21,7 +22,6 @@ var log = function(msg) {
 
 // to send relevant stuff to the server
 var out = function() {
-    console.error.apply(console, arguments); // TODO temp, just to check what I'm sending
     console.log.apply(console, arguments);
 };
 
@@ -40,51 +40,51 @@ var parseVal = function parseVal(s) {
 
 
 
-var rl = readline.createInterface({
-    input    : process.stdin,
-    terminal : false
-});
+// setup bot, sharing state and i/o
+var b = bot(settings, updates, out, log);
 
 
 
-rl.prompt();
+// parse lines, update state, invoke bot
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
 
+line(
+    process.stdin,
+    function(cmd) { // onLine
+        cmd = cmd.trim();
+        if (cmd.length = 0) { return; }
 
+        //log('received "%s"', cmd);
 
-rl.on('line', function(cmd) {
-    log('received "%s"', cmd);
+        var parts = cmd.split(' ');
+        var op = parts.shift();
 
-    var parts = cmd.split(' ');
-    var op = parts.shift();
-    
-    switch (op) {
-        case 'settings':
-            settings[ parts[0] ] = parseVal( parts[1] );
-            break;
-            
-        case 'update':
-            (function() {
-                var bag = updates[ parts[0] ];
-                if (!bag) {
-                    bag = {};
-                    updates[ parts[0] ] = bag;
-                }
-                bag [ parts[1] ] = parseVal( parts[2] );
-            })();
-            break;
-            
-        case 'action':
-            // TODO
-            out('drop');
-            break;
-            
-        default:
-            // unsupported
+        switch (op) {
+            case 'settings':
+                settings[ parts[0] ] = parseVal( parts[1] );
+                break;
+
+            case 'update':
+                (function() {
+                    var bag = updates[ parts[0] ];
+                    if (!bag) {
+                        bag = {};
+                        updates[ parts[0] ] = bag;
+                    }
+                    bag [ parts[1] ] = parseVal( parts[2] );
+                })();
+                break;
+
+            case 'action':
+                b.play();
+                break;
+
+            default:
+                //log('unsupported command!');
+        }
+    },
+    function() { // onEnd
+        process.exit(0);
     }
-});
-
-
-
-rl.on('close', function() {
-    process.exit(0);
-});
+);

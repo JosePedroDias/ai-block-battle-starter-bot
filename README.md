@@ -62,15 +62,16 @@ OOOO
 ### J
 
 ```
-O..
+..O
 OOO
 ...
 ```
 
 ### L
 
+
 ```
-..O
+O..
 OOO
 ...
 ```
@@ -113,3 +114,14 @@ OO.
 * according to the FAQ, stderr is ignored but logged
 
 
+## introspection
+
+* [match on player](http://theaigames.com/competitions/ai-block-battle/games/55b6d0801c687b361d5ba3ff)
+* [match data](http://theaigames.com/competitions/ai-block-battle/games/55b6d0801c687b361d5ba3ff/data)
+* [match dump](http://theaigames.com/competitions/ai-block-battle/games/55b6d0801c687b361d5ba3ff/dump)
+* [match raw dump](http://theaigames.com/competitions/ai-block-battle/games/55b6d0801c687b361d5ba3ff/rawdump)
+
+
+## to test the bot against the rawdump
+
+    node main.js < rawdump
