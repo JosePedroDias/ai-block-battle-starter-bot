@@ -135,6 +135,17 @@ Grid.prototype = {
                 return that.get(x, y) ? 1 : 0;
             }).join(',');
         }).join(';');
+    },
+
+    fromStringArray: function(arr) {
+        var that = this;
+
+        seq(that.h).forEach(function(y) {
+            seq(that.w).forEach(function(x) {
+                var v = !!arr[y][x];
+                that.set(x, y, v);
+            });
+        });
     }
 };
 
