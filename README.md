@@ -1,8 +1,8 @@
 # AI Block Battle (starter bot)
 
-<http://theaigames.com/competitions/ai-block-battle>
-<http://theaigames.com/competitions/ai-block-battle/rules>
-<http://theaigames.com/competitions/ai-block-battle/getting-started>
+* <http://theaigames.com/competitions/ai-block-battle>
+* <http://theaigames.com/competitions/ai-block-battle/rules>
+* <http://theaigames.com/competitions/ai-block-battle/getting-started>
 
 
 engine/bot communication works via standard I/O
@@ -125,3 +125,13 @@ OO.
 ## to test the bot against the rawdump
 
     node main.js < rawdump
+
+
+## ROADMAP
+
+* [x] working bot
+* [x] interpret given state
+* [ ] support applying possible actions to given state
+* [ ] compare internal representation with next round state
+* [ ] estimate basic strategy to make lines
+* [ ] replicate hosting app locally (shouldn't be hard)
