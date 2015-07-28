@@ -4,7 +4,6 @@
   "description": "* <http://theaigames.com/competitions/ai-block-battle> * <http://theaigames.com/competitions/ai-block-battle/rules> * <http://theaigames.com/competitions/ai-block-battle/getting-started>",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -17,6 +16,5 @@
   },
   "homepage": "https://github.com/JosePedroDias/ai-block-battle-starter-bot",
   "dependencies": {
-    "readable-stream": "^2.0.2"
   }
 }
