@@ -1,4 +1,5 @@
 var child_process = require('child_process');
+//var Duplex        = require('readable-stream').Duplex;
 
 
 
@@ -12,9 +13,11 @@ scenario = scenario.map(function(sc) {
 
 
 
-var inverse = true;
-var i = process[ inverse ? 'stdout' : 'stdin'  ];
-var o = process[ inverse ? 'stdin'  : 'stdout' ];
+var i = process.stdin;
+var o = process.stdout;
+
+/*var i = new Duplex();
+var o = new Duplex();*/
 
 
 

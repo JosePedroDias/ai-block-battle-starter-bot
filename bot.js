@@ -51,7 +51,7 @@ var logInternal = function(msg) {
 
 var bot = function(settings, updates, out, log) {
 
-    log = logInternal; // TODO TEMP
+    //log = logInternal; // TODO TEMP
 
     log('started');
 
