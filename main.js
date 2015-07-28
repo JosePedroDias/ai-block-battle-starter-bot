@@ -12,16 +12,17 @@ var updates = {}; // bag of bags (game, player1, player2?)
 
 
 
-// to send relevant stuff to the server
-var out = function() {
-    console.log.apply(console, arguments);
+// to log stuff
+var log = function(msg) {
+    console.error.apply(console, arguments);
 };
 
 
 
-// to log stuff
-var log = function(msg) {
-    console.error.apply(console, arguments);
+// to send relevant stuff to the server
+var out = function() {
+    console.error.apply(console, arguments); // TODO temp, just to check what I'm sending
+    console.log.apply(console, arguments);
 };
 
 
