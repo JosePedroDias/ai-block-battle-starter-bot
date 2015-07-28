@@ -110,5 +110,6 @@ OO.
 
 * add `//__main__` comment to main loop
 * send as zip without top directory
+* according to the FAQ, stderr is ignored but logged
 
 

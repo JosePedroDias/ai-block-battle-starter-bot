@@ -12,10 +12,21 @@ var updates = {}; // bag of bags (game, player1, player2?)
 
 
 
-var out = function(msg) {
-    console.log(msg);
+// to send relevant stuff to the server
+var out = function() {
+    console.log.apply(console, arguments);
 };
 
+
+
+// to log stuff
+var log = function(msg) {
+    console.error.apply(console, arguments);
+};
+
+
+
+// should cover all received data parsing
 var parseVal = function parseVal(s) {
     if (s.indexOf(';') !== -1) {
         return s.split(';').map(parseVal);
@@ -26,16 +37,22 @@ var parseVal = function parseVal(s) {
     return (isFinite(s) ? parseFloat(s) : s);
 };
 
+
+
 var rl = readline.createInterface({
     input    : process.stdin,
-    output   : process.stdout,
     terminal : false
 });
 
-rl.setPrompt('');
+
+
 rl.prompt();
 
+
+
 rl.on('line', function(cmd) {
+    log('received "%s"', cmd);
+
     var parts = cmd.split(' ');
     var op = parts.shift();
     
@@ -57,7 +74,7 @@ rl.on('line', function(cmd) {
             
         case 'action':
             // TODO
-            log('drop');
+            out('drop');
             break;
             
         default:
@@ -65,10 +82,8 @@ rl.on('line', function(cmd) {
     }
 });
 
+
+
 rl.on('close', function() {
     process.exit(0);
 });
-
-//rl.pause() stops listening
-//rl.resume() resumes listening
-//rl.close() to exit
