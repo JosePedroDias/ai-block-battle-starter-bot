@@ -1,15 +1,15 @@
-var fs = require('fs');
-
 var Grid = require('./grid');
 
 
 
-
-/*var logLines = [];
+/*
+ var fs = require('fs');
+var logLines = [];
 var logInternal = function(msg) {
     logLines.push(msg);
     fs.writeFileSync('bot.log', logLines.join('\n'));
-};*/
+};
+*/
 var logInternal = function() {};
 
 
