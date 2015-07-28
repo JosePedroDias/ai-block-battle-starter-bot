@@ -21,7 +21,9 @@ Grid.prototype = {
     },
 
     set: function (x, y, v) {
-        this._a[this.w * y + x] = v || true;
+        if (v === undefined) { v = true; }
+        
+        this._a[this.w * y + x] = v;
     },
 
     unset: function (x, y) {
@@ -30,6 +32,7 @@ Grid.prototype = {
 
     setArray: function (arr) {
         var that = this;
+        
         arr.forEach(function(p) {
             that.set(p[0], p[1]);
         });
@@ -66,14 +69,22 @@ Grid.prototype = {
         return false;
     },
 
-    put: function (n, pos) {
+    put: function (n, pos, vv) {
+        if (vv === undefined) { vv = true; }
+    
         var that = this;
 
         seq(n.h).forEach(function(y) {
+            var yy = y + pos[1];
+            if (yy < 0 || yy >= that.h) { return; }
+            
             seq(n.w).forEach(function(x) {
                 var v = n.get(x, y);
                 if (v) {
-                    that.set(x + pos[0], y + pos[1]);
+                    var xx = x + pos[0];
+                    if (xx < 0 || xx >= that.w) { return; }
+                    
+                    that.set(xx, yy, vv);
                 }
             });
         });
@@ -112,6 +123,12 @@ Grid.prototype = {
 
         this.eraseLine(0);
     },
+    
+    clone: function() {
+        var c = new Grid(this.w, this.h);
+        c._a = this._a.slice();
+        return c;
+    },
 
     toString: function () {
         var that = this;
@@ -119,7 +136,8 @@ Grid.prototype = {
 
         seq(that.h).forEach(function(y) {
             seq(that.w).forEach(function(x) {
-                r.push( that.get(x, y) ? 'O' : '.' );
+                var v = that.get(x, y);
+                r.push( v ? 'O' : '.' );
             });
             r.push('\n');
         });
@@ -132,7 +150,8 @@ Grid.prototype = {
 
         return seq(that.h).map(function(y) {
             return seq(that.w).map(function(x) {
-                return that.get(x, y) ? 1 : 0;
+                var v = that.get(x, y);
+                return (v ? 1 : 0);
             }).join(',');
         }).join(';');
     },
@@ -142,8 +161,8 @@ Grid.prototype = {
 
         seq(that.h).forEach(function(y) {
             seq(that.w).forEach(function(x) {
-                var v = !!arr[y][x];
-                that.set(x, y, v);
+                var v = arr[y][x];
+                that.set(x, y, !!v);
             });
         });
     }

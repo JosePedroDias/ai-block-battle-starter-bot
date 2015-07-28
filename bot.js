@@ -1,4 +1,5 @@
-var Grid = require('./grid');
+var Grid   = require('./grid');
+var blocks = require('./blocks');
 
 
 
@@ -37,14 +38,14 @@ updates:
 
 
 
-var fs = require('fs');
+/*var fs = require('fs');
 var logLines = [];
 var logInternal = function(msg) {
     logLines.push(msg);
     fs.writeFileSync('bot.log', logLines.join('\n'));
-};
+};*/
 
-//var logInternal = function() {};
+var logInternal = function() {};
 
 
 
@@ -54,14 +55,31 @@ var bot = function(settings, updates, out, log) {
 
     return {
         play: function() {
-            logInternal('\n--------------------\n');
-            logInternal('round ' + updates.game.round);
-            logInternal('piece ' + updates.game.this_piece_type + ' at ' + updates.game.this_piece_position);
-
-            var g = new Grid(settings.field_width, settings.field_height);
-            g.fromStringArray( updates[ settings.your_bot].field );
-            logInternal( g.toString() );
-
+            log('\n--------------------\n');
+            log('round ' + updates.game.round);
+            
+            
+            var pieceType     = updates.game.this_piece_type;
+            var nextPieceType = updates.game.next_piece_type;
+            var pos = updates.game.this_piece_position;
+            
+            log('piece of type ' + pieceType + ' at ' + pos);
+            
+            var p = blocks[pieceType].clone();
+            log('piece:');
+            log( p.toString() );
+            
+            var w = settings.field_width;
+            var h = settings.field_height;
+            var field = updates[ settings.your_bot].field;
+            
+            var g = new Grid(w, h);
+            g.fromStringArray(field);
+            g.put(p, pos, false); // erase current piece
+            
+            log('grid:');
+            log( g.toString() );
+            
             out('drop');
         }
     };
