@@ -38,21 +38,6 @@ Grid.prototype = {
         });
     },
 
-    rotatedClone: function () {
-        var that = this;
-        var n = new Grid(this.h, this.w);
-
-        seq(that.h).forEach(function(y) {
-            seq(that.w).forEach(function(x) {
-                n.set(that.h - y - 1, x, that.get(x, y));
-            });
-        });
-    },
-
-    r: function () {
-        return this.rotatedClone();
-    },
-
     collides: function (n, pos) {
         if (pos[0] < 0 || pos[1] < 0 || pos[0] + n.w > this.w || pos[1] + n.h > this.h) {
             return true;
@@ -128,6 +113,38 @@ Grid.prototype = {
         var c = new Grid(this.w, this.h);
         c._a = this._a.slice();
         return c;
+    },
+
+    rotatedCWClone: function () {
+        var that = this;
+        var n = new Grid(this.h, this.w);
+
+        seq(that.h).forEach(function(y) {
+            seq(that.w).forEach(function(x) {
+                var v = that.get(x, y);
+                if (v) {
+                    n.set(that.h - y - 1, x);
+                }
+            });
+        });
+
+        return n;
+    },
+
+    rotatedCCWClone: function () {
+        var that = this;
+        var n = new Grid(this.h, this.w);
+
+        seq(that.h).forEach(function(y) {
+            seq(that.w).forEach(function(x) {
+                var v = that.get(x, y);
+                if (v) {
+                    n.set(y, that.w - x - 1);
+                }
+            });
+        });
+
+        return n;
     },
 
     toString: function () {

@@ -4,6 +4,7 @@
   "description": "* <http://theaigames.com/competitions/ai-block-battle> * <http://theaigames.com/competitions/ai-block-battle/rules> * <http://theaigames.com/competitions/ai-block-battle/getting-started>",
   "main": "main.js",
   "scripts": {
+    "test": "mocha -R spec -u tdd test/blocks.js && mocha -R spec -u tdd test/grid.js"
   },
   "repository": {
     "type": "git",
