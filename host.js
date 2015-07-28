@@ -23,34 +23,21 @@ var out = function() {
 
 
 
+var fs = require('fs');
+var logLines = [];
+var logInternal = function(msg) {
+    logLines.push(msg);
+    fs.writeFileSync('host.log', logLines.join('\n'));
+};
+
+//var logInternal = function() {};
+
+
 
 // parse lines, update state, invoke bot
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
-
-
-
-/*
- settings timebank 10000
- settings time_per_move 500
- settings player_names player1,player2
- settings your_bot player1
- settings field_width 10
- settings field_height 20
-
- update game round 1
- update game this_piece_type T
- update game next_piece_type T
- update game this_piece_position 3,-1
- update player1 row_points 0
- update player1 combo 0
- update player1 field 0,0,0,1,1,1,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0
- update player2 field 0,0,0,1,1,1,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0
- update player2 row_points 0
- update player2 combo 0
- action moves 10000
-* */
 
 
 var blockTypes = Object.keys(blocks);
@@ -79,6 +66,8 @@ var waitingForBot = false;
 var sendRound = function() {
     ++round;
 
+    logInternal('round ' + round);
+
     if (pieces.length > 1) {
         pieces.shift();
         pieces.push( getRandomBlockType() );
@@ -94,7 +83,9 @@ var sendRound = function() {
     var p = blocks[pieces[0]].clone();
     var field2 = field.clone();
     field2.put(p, pos);
-    out('update ' + playerBot + ' field ' + field2.toStringArray());
+    var tmp = field2.toStringArray();
+    logInternal(tmp);
+    out('update ' + playerBot + ' field ' + tmp);
     out('action moves ' + movesLeft);
 
     waitingForBot = true;
@@ -109,12 +100,15 @@ line(
         if (cmd.length = 0) { return; }
 
         log('received "%s"', cmd);
+        logInternal('received "' + cmd + '"', cmd);
 
         if (!waitingForBot) {
             log('got answer without expecting it!');
         }
         else {
-
+            if (round < 4) {
+                sendRound();
+            }
         }
     },
     function() { // onEnd

@@ -122,9 +122,36 @@ OO.
 * [match raw dump](http://theaigames.com/competitions/ai-block-battle/games/55b6d0801c687b361d5ba3ff/rawdump)
 
 
-## to test the bot against the rawdump
+
+## how to run this stuff?
+
+### to test the bot against the rawdump (temporary, to be ditched soon)
 
     node main.js < rawdump
+    
+    
+### to play locally (ongoing)
+
+    node glue.js
+
+
+### to package the zip file for submission
+
+    make
+
+
+
+## files
+
+* `main.js`   - entry point for the bot
+* `bot.js`    - bot abstracting. receives state data and exposes a play method for main to call.
+* `line.js`   - handles stdin as lines
+* `grid.js`   - 2D grid abstraction for fields and blocks
+* `blocks.js` - object with supported blocks, indexed by type (i.e.: I, O, J, L, S, Z)
+* `aux.js`    - auxiliary functions
+* `host.js`   - local host to run the bot before submitting online (ongoing)
+* `glue.js`   - spawns both the host and the bot and connects their I/Os
+
 
 
 ## ROADMAP

@@ -38,18 +38,20 @@ updates:
 
 
 
-/*var fs = require('fs');
+var fs = require('fs');
 var logLines = [];
 var logInternal = function(msg) {
     logLines.push(msg);
     fs.writeFileSync('bot.log', logLines.join('\n'));
-};*/
+};
 
-var logInternal = function() {};
+//var logInternal = function() {};
 
 
 
 var bot = function(settings, updates, out, log) {
+
+    log = logInternal; // TODO TEMP
 
     log('started');
 
@@ -60,7 +62,7 @@ var bot = function(settings, updates, out, log) {
             
             
             var pieceType     = updates.game.this_piece_type;
-            var nextPieceType = updates.game.next_piece_type;
+            //var nextPieceType = updates.game.next_piece_type;
             var pos = updates.game.this_piece_position;
             
             log('piece of type ' + pieceType + ' at ' + pos);
