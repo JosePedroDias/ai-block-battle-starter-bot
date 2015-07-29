@@ -10,7 +10,7 @@ suite('play', function() {
 
     test('play', function() {
         var field = new Grid(10, 20);
-        var piece = blocks.blocks['J'].clone();
+        var piece = blocks.getBlock('J');
         var pos = [3, 0];
         var p = play.play(field, piece, pos);
 
@@ -18,25 +18,30 @@ suite('play', function() {
         p = p.left();
         p = p.turnLeft();
 
-        var field1 = p.applyMovements();
+
         var movements = p.getMovements();
-        console.log('movements: ' + movements.join(','));
-        console.log('field1:\n' + field1.toString());
+        var field1SR = p.applyMovements().toStringArray();
+        //console.log('movements:\n' + JSON.stringify(movements));
+        //console.log('field1SR:\n' + field1SR);
+        assert.deepEqual(movements, ['down', 'left', 'turnleft']);
+        assert.equal(field1SR, '0,0,0,0,0,0,0,0,0,0;0,0,1,1,0,0,0,0,0,0;0,0,0,1,0,0,0,0,0,0;0,0,0,1,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0');
     });
 
     test('electPlay', function() {
 
         var field = new Grid(10, 20);
-        var piece = blocks.blocks['J'].clone();
+        var piece = blocks.getBlock('J');
         var pos = [3, 0];
         var p = play.play(field, piece, pos);
 
         p = play.electPlay(p);
 
-        var field1 = p.applyMovements();
         var movements = p.getMovements();
-        console.log('movements: ' + movements.join(','));
-        console.log('field1:\n' + field1.toString());
+        var field1 = p.applyMovements();
+        //console.log('movements:\n' + JSON.stringify(movements));
+        //console.log('field1:\n' + field1.toString());
+        assert.ok(movements.length > 18 && movements.length < 100);
+        assert.equal(field1.isLineFilled(19), false);
     });
 
 });

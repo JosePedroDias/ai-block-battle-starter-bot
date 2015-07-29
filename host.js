@@ -72,7 +72,7 @@ var sendRound = function() {
     out('update ' + playerBot + ' points ' + points);
     out('update ' + playerBot + ' row_points ' + rowPoints);
     out('update ' + playerBot + ' combo ' + combo);
-    var p = blocks.blocks[ pieces[0] ].clone();
+    var p = blocks.getBlock( pieces[0] );
     var field2 = field.clone();
     field2.put(p, pos);
     var tmp = field2.toStringArray();

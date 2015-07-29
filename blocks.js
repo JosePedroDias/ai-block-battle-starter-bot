@@ -12,6 +12,10 @@ var blocks = {
     Z: new Grid(3, 3, [[0, 0], [1, 0], [1, 1], [2, 1]])
 };
 
+var getBlock = function(blockType) {
+    return blocks[blockType].clone();
+};
+
 var blockTypes = Object.keys(blocks);
 
 var l = blockTypes.length;
@@ -21,7 +25,7 @@ var getRandomBlockType = function() {
 };
 
 module.exports = {
-    blocks             : blocks,
+    getBlock           : getBlock,
     blockTypes         : blockTypes,
     getRandomBlockType : getRandomBlockType
 };

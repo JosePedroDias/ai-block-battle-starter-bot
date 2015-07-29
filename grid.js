@@ -11,11 +11,12 @@ all setters should return new grids
 var Grid = function(w, h, arr) {
     this.w = w;
     this.h = h;
+    this.a = new Array(this.w * this.h);
     if (arr) {
-        this.a = arr.slice();
-    }
-    else {
-        this.a = new Array(this.w * this.h);
+        var that = this;
+        arr.forEach(function(pos) {
+            that._set(pos[0], pos[1]);
+        });
     }
 };
 
@@ -27,7 +28,7 @@ Grid.prototype = {
     },
 
     _set: function (x, y, v) {
-        if (!this._inBounds(x, y)) { return; } // TODO REQ?
+        if (!this._inBounds(x, y)) { return; }
         if (v === undefined) { v = true; }
         
         this.a[this.w * y + x] = v;
@@ -51,7 +52,7 @@ Grid.prototype = {
                 if (
                     n._get(x, y) &&
                     (
-                        !that._inBounds(xx, yy) ||
+                        (!that._inBounds(xx, yy) && yy >= 0) || // to let pieces be above the grid
                         that._get(xx, yy)
                     )
                 ) {
@@ -120,7 +121,9 @@ Grid.prototype = {
     },
     
     clone: function() {
-        return new Grid(this.w, this.h, this.a);
+        var g = new Grid(this.w, this.h);
+        g.a = this.a.slice();
+        return g;
     },
 
     rotatedCWClone: function () {

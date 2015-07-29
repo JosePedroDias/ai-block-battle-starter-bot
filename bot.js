@@ -66,7 +66,7 @@ var bot = function(settings, updates, out, log) {
             
             log('piece of type ' + pieceType + ' at ' + pos);
             
-            var p = blocks.blocks[pieceType].clone();
+            var p = blocks.getBlock(pieceType);
             //log('piece:');
             //log( p.toString() );
             
