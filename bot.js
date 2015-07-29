@@ -38,12 +38,12 @@ updates:
 
 
 
-var fs = require('fs');
+/*var fs = require('fs');
 var logLines = [];
 var logInternal = function(msg) {
     logLines.push(msg);
     fs.writeFileSync('bot.log', logLines.join('\n'));
-};
+};*/
 
 //var logInternal = function() {};
 
@@ -57,15 +57,18 @@ var bot = function(settings, updates, out, log) {
 
     return {
         play: function() {
-            //log('\n--------------------\n');
-            //log('round ' + updates.game.round);
-
             var pieceType     = updates.game.this_piece_type;
-            //var nextPieceType = updates.game.next_piece_type;
+            var nextPieceType = updates.game.next_piece_type;
             var pos = updates.game.this_piece_position;
-            
-            log('piece of type ' + pieceType + ' at ' + pos);
-            
+
+            //log('\n--------------------\n');
+            log('Round %s, this: %s @ %s, next: %s',
+                updates.game.round,
+                pieceType,
+                pos,
+                nextPieceType
+            );
+
             var p = blocks.getBlock(pieceType);
             //log('piece:');
             //log( p.toString() );
@@ -90,6 +93,9 @@ var bot = function(settings, updates, out, log) {
             if (movements.length === 0) {
                 movements = 'no_moves';
             }
+            log(movements);
+
+            movements = 'drop'; // TODO TEST
             log(movements);
             out(movements);
         }

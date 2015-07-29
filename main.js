@@ -55,7 +55,7 @@ line(
         cmd = cmd.trim();
         if (cmd.length = 0) { return; }
 
-        //log('received "%s"', cmd);
+        log('received "%s"', cmd);
 
         var parts = cmd.split(' ');
         var op = parts.shift();
