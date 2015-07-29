@@ -57,19 +57,18 @@ var bot = function(settings, updates, out, log) {
 
     return {
         play: function() {
-            log('\n--------------------\n');
-            log('round ' + updates.game.round);
-            
-            
+            //log('\n--------------------\n');
+            //log('round ' + updates.game.round);
+
             var pieceType     = updates.game.this_piece_type;
             //var nextPieceType = updates.game.next_piece_type;
             var pos = updates.game.this_piece_position;
             
-            log('piece of type ' + pieceType + ' at ' + pos);
+            //log('piece of type ' + pieceType + ' at ' + pos);
             
             var p = blocks[pieceType].clone();
-            log('piece:');
-            log( p.toString() );
+            //log('piece:');
+            //log( p.toString() );
             
             var w = settings.field_width;
             var h = settings.field_height;
@@ -79,10 +78,19 @@ var bot = function(settings, updates, out, log) {
             g.fromStringArray(field);
             g.put(p, pos, false); // erase current piece
             
-            log('grid:');
-            log( g.toString() );
+            //log('grid:');
+            //log( g.toString() );
             
-            out('drop');
+            //out('drop');
+
+            var pl = play.play(field, p, pos);
+            pl = play.electPlay(pl);
+            var movements = pl.getMovements();
+            movements = movements.join(',');
+            if (movements.length === 0) {
+                movements = 'no_moves';
+            }
+            out(movements);
         }
     };
 
