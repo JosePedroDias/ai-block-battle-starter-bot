@@ -148,7 +148,11 @@ OO.
 * `line.js`   - handles stdin as lines
 * `grid.js`   - 2D grid abstraction for fields and blocks
 * `blocks.js` - object with supported blocks, indexed by type (i.e.: I, O, J, L, S, Z)
+* `play.js`   - immutableish auxiliary API for reasoning about plays 
 * `aux.js`    - auxiliary functions
+
+----
+
 * `host.js`   - local host to run the bot before submitting online (ongoing)
 * `glue.js`   - spawns both the host and the bot and connects their I/Os
 

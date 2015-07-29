@@ -2,56 +2,66 @@
 
 var seq = require('./aux').seq;
 
+/*
+all setters should return new grids
+*/
+
 
 
 var Grid = function(w, h, arr) {
     this.w = w;
     this.h = h;
-    this._a = new Array(this.w * this.h);
-
-    if (arr !== undefined) {
-        this.setArray(arr);
+    if (arr) {
+        this.a = arr.slice();
+    }
+    else {
+        this.a = new Array(this.w * this.h);
     }
 };
 
 Grid.prototype = {
 
-    get: function(x, y) {
-        return this._a[this.w * y + x];
+    _get: function(x, y) {
+        if (!this._inBounds(x, y)) { return false; }
+        return !!this.a[this.w * y + x];
     },
 
-    set: function (x, y, v) {
+    _set: function (x, y, v) {
+        if (!this._inBounds(x, y)) { return; } // TODO REQ?
         if (v === undefined) { v = true; }
         
-        this._a[this.w * y + x] = v;
+        this.a[this.w * y + x] = v;
     },
 
-    unset: function (x, y) {
-        return this.set(x, y, false);
-    },
-
-    setArray: function (arr) {
-        var that = this;
-        
-        arr.forEach(function(p) {
-            that.set(p[0], p[1]);
-        });
+    _inBounds: function(x, y) {
+        return x >= 0 &&
+            y >= 0 &&
+            x < this.w &&
+            y < this.h;
     },
 
     collides: function (n, pos) {
-        if (pos[0] < 0 || pos[1] < 0 || pos[0] + n.w > this.w || pos[1] + n.h > this.h) {
-            return true;
-        }
-
         var that = this;
+        var res = false;
 
         seq(that.h).forEach(function(y) {
+            var yy = y + pos[1];
             seq(that.w).forEach(function(x) {
-                if (n.get(x, y) && that.get(x + pos[0], y + pos[1])) { return true; }
+                var xx = x + pos[0];
+                if (
+                    n._get(x, y) &&
+                    (
+                        !that._inBounds(xx, yy) ||
+                        that._get(xx, yy)
+                    )
+                ) {
+                    res = true;
+
+                }
             });
         });
 
-        return false;
+        return res;
     },
 
     put: function (n, pos, vv) {
@@ -61,41 +71,39 @@ Grid.prototype = {
 
         seq(n.h).forEach(function(y) {
             var yy = y + pos[1];
-            if (yy < 0 || yy >= that.h) { return; }
-            
             seq(n.w).forEach(function(x) {
-                var v = n.get(x, y);
+                var v = n._get(x, y);
                 if (v) {
                     var xx = x + pos[0];
-                    if (xx < 0 || xx >= that.w) { return; }
-                    
-                    that.set(xx, yy, vv);
+                    that._set(xx, yy, vv);
                 }
             });
         });
+
+        return this;
     },
 
     isLineFilled: function (y) {
         var that = this;
 
         return seq(this.w).every(function(x) {
-            return that.get(x, y);
+            return that._get(x, y);
         });
     },
 
-    eraseLine: function (y) {
+    _eraseLine: function (y) {
         var that = this;
 
         seq(this.w).forEach(function(x) {
-            return that.unset(x, y);
+            that._set(x, y, false);
         });
     },
 
-    copyLineAbove: function (y) {
+    _copyLineAbove: function (y) {
         var that = this;
 
         seq(this.w).forEach(function(x) {
-            that.set(x, y, that.get(x, y - 1));
+            that._set(x, y, that._get(x, y - 1));
         });
     },
 
@@ -103,16 +111,16 @@ Grid.prototype = {
         var that = this;
 
         seq(this.h - 1 - y0).forEach(function(y) {
-            that.copyLineAbove( that.h - y + y0 );
+            that._copyLineAbove( that.h - y + y0 );
         });
 
-        this.eraseLine(0);
+        this._eraseLine(y0);
+
+        return this;
     },
     
     clone: function() {
-        var c = new Grid(this.w, this.h);
-        c._a = this._a.slice();
-        return c;
+        return new Grid(this.w, this.h, this.a);
     },
 
     rotatedCWClone: function () {
@@ -121,9 +129,9 @@ Grid.prototype = {
 
         seq(that.h).forEach(function(y) {
             seq(that.w).forEach(function(x) {
-                var v = that.get(x, y);
+                var v = that._get(x, y);
                 if (v) {
-                    n.set(that.h - y - 1, x);
+                    n._set(that.h - y - 1, x);
                 }
             });
         });
@@ -137,9 +145,9 @@ Grid.prototype = {
 
         seq(that.h).forEach(function(y) {
             seq(that.w).forEach(function(x) {
-                var v = that.get(x, y);
+                var v = that._get(x, y);
                 if (v) {
-                    n.set(y, that.w - x - 1);
+                    n._set(y, that.w - x - 1);
                 }
             });
         });
@@ -153,11 +161,12 @@ Grid.prototype = {
 
         seq(that.h).forEach(function(y) {
             seq(that.w).forEach(function(x) {
-                var v = that.get(x, y);
+                var v = that._get(x, y);
                 r.push( v ? 'O' : '.' );
             });
             r.push('\n');
         });
+        r.pop();
 
         return r.join('');
     },
@@ -167,7 +176,7 @@ Grid.prototype = {
 
         return seq(that.h).map(function(y) {
             return seq(that.w).map(function(x) {
-                var v = that.get(x, y);
+                var v = that._get(x, y);
                 return (v ? 1 : 0);
             }).join(',');
         }).join(';');
@@ -179,7 +188,7 @@ Grid.prototype = {
         seq(that.h).forEach(function(y) {
             seq(that.w).forEach(function(x) {
                 var v = arr[y][x];
-                that.set(x, y, !!v);
+                that._set(x, y, !!v);
             });
         });
     }

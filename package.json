@@ -4,7 +4,7 @@
   "description": "* <http://theaigames.com/competitions/ai-block-battle> * <http://theaigames.com/competitions/ai-block-battle/rules> * <http://theaigames.com/competitions/ai-block-battle/getting-started>",
   "main": "main.js",
   "scripts": {
-    "test": "mocha -R spec -u tdd test/blocks.js && mocha -R spec -u tdd test/grid.js"
+    "test": "mocha -R spec -u tdd test/blocks.js && mocha -R spec -u tdd test/grid.js && mocha -R spec -u tdd test/play.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,8 @@
     "url": "https://github.com/JosePedroDias/ai-block-battle-starter-bot/issues"
   },
   "homepage": "https://github.com/JosePedroDias/ai-block-battle-starter-bot",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.2.5"
   }
 }

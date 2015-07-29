@@ -12,6 +12,16 @@ var blocks = {
     Z: new Grid(3, 3, [[0, 0], [1, 0], [1, 1], [2, 1]])
 };
 
+var blockTypes = Object.keys(blocks);
 
+var l = blockTypes.length;
 
-module.exports = blocks;
+var getRandomBlockType = function() {
+    return blockTypes[ Math.floor( Math.random() * l ) ];
+};
+
+module.exports = {
+    blocks             : blocks,
+    blockTypes         : blockTypes,
+    getRandomBlockType : getRandomBlockType
+};

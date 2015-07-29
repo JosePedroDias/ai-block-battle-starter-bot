@@ -70,10 +70,6 @@ var bot = function(settings, updates, out, log) {
             var p = blocks[pieceType].clone();
             log('piece:');
             log( p.toString() );
-            log('piece CW:');
-            log( p.rotatedCWClone().toString() );
-            log('piece CCW:');
-            log( p.rotatedCCWClone().toString() );
             
             var w = settings.field_width;
             var h = settings.field_height;

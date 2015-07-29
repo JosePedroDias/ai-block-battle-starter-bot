@@ -40,21 +40,13 @@ process.stdin.setEncoding('utf8');
 
 
 
-var blockTypes = Object.keys(blocks);
-
-var getRandomBlockType = function() {
-    var l = blockTypes.length;
-    return blockTypes[ Math.floor( Math.random() * l ) ];
-};
-
-
 var movesLeft = 10000;
 var timePerMove = 500;
 var round = 0;
 var field = new Grid(dims[0], dims[1]);
 var pieces = [];
-pieces.push( getRandomBlockType() );
-pieces.push( getRandomBlockType() );
+pieces.push( blocks.getRandomBlockType() );
+pieces.push( blocks.getRandomBlockType() );
 var pos = [3, -1];
 var points = 0;
 var rowPoints = 0;
@@ -70,7 +62,7 @@ var sendRound = function() {
 
     if (pieces.length > 1) {
         pieces.shift();
-        pieces.push( getRandomBlockType() );
+        pieces.push( blocks.getRandomBlockType() );
     }
 
     out('update game round ' + round);
@@ -80,7 +72,7 @@ var sendRound = function() {
     out('update ' + playerBot + ' points ' + points);
     out('update ' + playerBot + ' row_points ' + rowPoints);
     out('update ' + playerBot + ' combo ' + combo);
-    var p = blocks[pieces[0]].clone();
+    var p = blocks.blocks[ pieces[0] ].clone();
     var field2 = field.clone();
     field2.put(p, pos);
     var tmp = field2.toStringArray();
