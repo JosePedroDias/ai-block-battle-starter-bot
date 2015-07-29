@@ -1,6 +1,6 @@
 var Grid   = require('./grid');
 var blocks = require('./blocks');
-
+var play   = require('./play');
 
 
 /*
