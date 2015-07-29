@@ -83,7 +83,7 @@ var bot = function(settings, updates, out, log) {
             
             //out('drop');
 
-            var pl = play.play(field, p, pos);
+            var pl = play.play(g, p, pos);
             pl = play.electPlay(pl);
             var movements = pl.getMovements();
             movements = movements.join(',');
