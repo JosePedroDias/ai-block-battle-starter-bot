@@ -10,28 +10,30 @@ suite('play', function() {
 
     test('play', function() {
         var field = new Grid(10, 20);
-        var piece = blocks.getBlock('J');
-        var pos = [3, 0];
+        var piece = blocks.getBlock('T');
+        var pos = [3, -1];
         var p = play.play(field, piece, pos);
 
+        p = p.left();
+        p = p.turnleft();
         p = p.down();
         p = p.left();
-        p = p.turnLeft();
+        p = p.turnleft();
 
 
         var movements = p.getMovements();
         var field1SR = p.applyMovements().toStringArray();
         //console.log('movements:\n' + JSON.stringify(movements));
         //console.log('field1SR:\n' + field1SR);
-        assert.deepEqual(movements, ['down', 'left', 'turnleft']);
-        assert.equal(field1SR, '0,0,0,0,0,0,0,0,0,0;0,0,1,1,0,0,0,0,0,0;0,0,0,1,0,0,0,0,0,0;0,0,0,1,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0');
+        assert.deepEqual(movements, ['left', 'turnleft', 'down', 'left', 'turnleft']);
+        assert.equal(field1SR, '0,0,0,0,0,0,0,0,0,0;0,1,1,1,0,0,0,0,0,0;0,0,1,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0');
     });
 
     test('electPlay', function() {
 
         var field = new Grid(10, 20);
-        var piece = blocks.getBlock('J');
-        var pos = [3, 0];
+        var piece = blocks.getBlock('T');
+        var pos = [3, -1];
         var p = play.play(field, piece, pos);
 
         p = play.electPlay(p);

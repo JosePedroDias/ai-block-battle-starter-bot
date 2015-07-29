@@ -57,7 +57,6 @@ Grid.prototype = {
                     )
                 ) {
                     res = true;
-
                 }
             });
         });

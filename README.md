@@ -162,7 +162,8 @@ OO.
 
 * [x] working bot
 * [x] interpret given state
-* [ ] support applying possible actions to given state
+* [x] support applying possible actions to given state
+* [ ] estimate basic strategy to make lines (randomized without loops)
 * [ ] compare internal representation with next round state
-* [ ] estimate basic strategy to make lines
+* [ ] improved strategy to make lines (with a decent heuristic)
 * [ ] replicate hosting app locally (shouldn't be hard)
