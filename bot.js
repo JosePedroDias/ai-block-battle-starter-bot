@@ -64,9 +64,9 @@ var bot = function(settings, updates, out, log) {
             //var nextPieceType = updates.game.next_piece_type;
             var pos = updates.game.this_piece_position;
             
-            //log('piece of type ' + pieceType + ' at ' + pos);
+            log('piece of type ' + pieceType + ' at ' + pos);
             
-            var p = blocks[pieceType].clone();
+            var p = blocks.blocks[pieceType].clone();
             //log('piece:');
             //log( p.toString() );
             
@@ -90,6 +90,7 @@ var bot = function(settings, updates, out, log) {
             if (movements.length === 0) {
                 movements = 'no_moves';
             }
+            log(movements);
             out(movements);
         }
     };
